@@ -25,4 +25,14 @@ from storage import (
 # US-02: List all books
 # Developer 1: YOUR IMPLEMENTATION
 # =========================================================
+def book_rows(db, books):
+    return [[b["id"], b["title"], b["author"], b["isbn"], b["category"] or "-",
+             f'{available_copies(db, b)} / {b["copies"]}'] for b in books]
+
+BOOK_HEADERS = ["ID", "Title", "Author", "ISBN", "Category", "Available / Total"]
+
+def ui_list_books(db):
+    print("\n--- All books ---")
+    books = sorted(db["books"], key=lambda b: b["title"].lower())
+    print_table(BOOK_HEADERS, book_rows(db, books))
 
